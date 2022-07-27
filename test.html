@@ -15,6 +15,12 @@
         .container{width:800px; margin:0 auto; border: 1px solid; position: relative;}
 
 
+        button {
+            border: none;
+            background-color: rgba(0, 0, 0, 0);
+            font-size: 20px;
+        }
+
         button.left {
             position: absolute;
             top: 50%;
@@ -70,7 +76,7 @@
 <body>
     <article>
         <div class="container">
-            <button type="button" class="left"><<<</button>
+            <button type="button" class="left"><</button>
             <div class="gallery">
                 <img src="/img/1.jpg" alt="">
             </div>
@@ -80,7 +86,7 @@
                 <li><img src="/img/3.jpg" alt=""></li>
                 <li><img src="/img/4.jpg" alt=""></li>
             </ul>
-            <button type="button" class="right">>>></button>
+            <button type="button" class="right">></button>
             <button id="stop">
                 stop
             </button>
@@ -109,24 +115,6 @@
         }, 1500);
     });
 
-
-    $("li").click(function() {
-        let source = $(this).find('img').attr('src');
-
-        $("li").removeClass("on");
-        $(this).addClass("on");
-
-        $(".gallery").find('img').attr('src', source);
-    });
-
-    $(".left").click(function() {
-        btnClick('left');
-    });
-
-    $(".right").click(function() {
-        btnClick('right');
-    });
-
     function btnClick(pos) {
         let idx = 0;
 
@@ -149,31 +137,58 @@
     }
 
 
+    $("li").click(function() {
+        let source = $(this).find('img').attr('src');
 
-    //let idx = 0;
+        $("li").removeClass("on");
+        $(this).addClass("on");
+
+        $(".gallery").find('img').attr('src', source);
+    });
+
+    
+    $(".left").click(function() {
+        btnClick('left');
+    });
+
+    $(".right").click(function() {
+        btnClick('right');
+    });
+
 
     // 1. 클래스 붙여서 버튼 텍스트 바꾸기로 변경 hasClass
     // 2. 타이머 개선하기
     // setInterval, clearInterval, hasClass, addClass, removeClass
 
     $("#stop").click(function() {
-        let btnText = $("#stop").text().trim();
+        //시작
+        if($("#stop").hasClass("start")) {
+            $('#stop').removeClass('start');
+            $("#stop").text('stop');
+            clearInterval(slideTimer);
 
-        // 중지
-        if(btnText == 'stop') {
+            slideTimer = setInterval(function() {
+                let idx = $(".on").index() + 1;
+
+                if(idx == $("li").length) {
+                    idx = 0;
+                }
+
+                let source = $("li").eq(idx).find('img').attr('src');
+
+                $("li").removeClass("on");
+                $("li").eq(idx).addClass("on");
+
+                $(".gallery").find('img').attr('src', source);
+            }, 1500);
+        } 
+        //중지
+        else {
+            $("#stop").addClass('start');
             $("#stop").text('start');
             clearInterval(slideTimer);
         }
-        // 시작
-        else {
-            $("#stop").text('stop');
-            slideTimer;
-        }
-        
     });
-
-
-
 
 </script>
 </html>

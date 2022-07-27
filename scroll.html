@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>scroll</title>
+
+    <script src="/js/jquery-3.6.0.min.js"></script>
+
+    <style>
+        *{margin:0; padding:0;}
+        ul,li,ol{list-style: none;}
+        a{color:white;}
+        .box{
+            width:100vw;
+            height:100vh;
+            color:white;
+            display:flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        nav{position: fixed; left:20px; top:20px;}
+        nav ul{}
+        nav ul li{margin-bottom: 20px;}
+        nav ul li.active a{color:yellow;}
+        nav ul li a{color:white; font-size: 24px;}
+
+        .top{position: fixed; right:60px; bottom: 60px;}
+        .top button{padding:16px; color: yellow; background: black; cursor: pointer;}
+
+        .abs{opacity:0; transform: translateY(50px); transition: all 1s ease;}
+        .abs.on{opacity: 1; transform: translateY(0);}
+    </style>
+</head>
+<body>
+
+    <nav>
+        <ul>
+            <li class="active"><a href="#01">01</a></li>
+            <li><a href="#02">02</a></li>
+            <li><a href="#03">03</a></li>
+            <li><a href="#04">04</a></li>
+        </ul>
+    </nav>
+
+    <div class="box box01" id="01" style="background-color:rgba(0, 0, 0, 1)">
+    <div class="abs">
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Obcaecati praesentium alias itaque suscipit illum et dicta ab perferendis dolore? Assumenda quos doloremque provident facilis suscipit?
+    </div>
+    </div>
+    <div class="box box02" id="02" style="background-color:rgba(0, 0, 0, .8)">
+    <div class="abs">
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Obcaecati praesentium alias itaque suscipit illum et dicta ab perferendis dolore? Assumenda quos doloremque provident facilis suscipit?
+    </div>
+    </div>
+    <div class="box box03" id="03" style="background-color:rgba(0, 0, 0, .6)">
+    <div class="abs">
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Obcaecati praesentium alias itaque suscipit illum et dicta ab perferendis dolore? Assumenda quos doloremque provident facilis suscipit?
+    </div>
+    </div>
+    <div class="box box04" id="04" style="background-color:rgba(0, 0, 0, .4)">
+    <div class="abs on">
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Obcaecati praesentium alias itaque suscipit illum et dicta ab perferendis dolore? Assumenda quos doloremque provident facilis suscipit?
+    </div>
+    </div>
+
+    <div class="top">
+        <button>
+            TOP
+        </button>
+    </div>
+
+    <script>
+
+        let scrollPos = $(window).scrollTop();
+
+        console.log(scrollPos);
+        /*
+        // 탑버튼
+        animate
+        offset
+        scrollTop
+
+        // 메뉴
+        offset
+        scrollTop
+        slice
+        animate
+        innerHeight
+        Height
+        */
+
+        
+    </script>
+</body>
+</html>
