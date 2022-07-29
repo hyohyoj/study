@@ -73,16 +73,10 @@
     </div>
 
     <script>
-
-        let scrollPos = $(window).scrollTop();
-
-        console.log(scrollPos);
+        let windowHeight = $(window).innerHeight();
+        let boxHeight = $('.box').height() / 4;
+        //console.log(boxHeight);
         /*
-        // 탑버튼
-        animate
-        offset
-        scrollTop
-
         // 메뉴
         offset
         scrollTop
@@ -91,6 +85,38 @@
         innerHeight
         Height
         */
+       $(window).scroll(function() {
+            let scrollPos = $(window).scrollTop();
+            
+            if(scrollPos < boxHeight) {
+                $('#01 div').addClass('on');
+            } else if(scrollPos > boxHeight) {
+                $('#02 div').addClass('on');
+            } else if(scrollPos > (windowHeight + boxHeight)) {
+                console.log(scrollPos, (windowHeight + boxHeight));
+                $('#03 div').addClass('on');
+            }
+       });
+        
+
+        // href 비활성화
+        $('a').bind('click', false);
+
+        $('a').click(function() {
+            let boxId = $(this).attr("href");
+            let boxTop = $(boxId).offset().top;
+            $('html, body').stop().animate({
+                scrollTop: boxTop
+            }, 400);
+        });
+
+
+        // 탑 버튼 - animate, offset, scrolltop
+        $('.top').click(function() {
+            $('html, body').stop().animate({
+                scrollTop: 0
+            }, 400);
+        });
 
         
     </script>
