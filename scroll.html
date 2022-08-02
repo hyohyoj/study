@@ -27,18 +27,20 @@
         nav ul li.active a{color:yellow;}
         nav ul li a{color:white; font-size: 24px;}
 
-        .top{position: fixed; right:60px; bottom: 60px;}
+        .top{position: fixed; right:60px; bottom: 60px; transition: all 1s ease;}
         .top button{padding:16px; color: yellow; background: black; cursor: pointer;}
 
         .abs{opacity:0; transform: translateY(50px); transition: all 1s ease;}
         .abs.on{opacity: 1; transform: translateY(0);}
+
+        
     </style>
 </head>
 <body>
 
     <nav>
         <ul>
-            <li class="active"><a href="#01">01</a></li>
+            <li><a href="#01">01</a></li>
             <li><a href="#02">02</a></li>
             <li><a href="#03">03</a></li>
             <li><a href="#04">04</a></li>
@@ -73,35 +75,79 @@
     </div>
 
     <script>
-        let windowHeight = $(window).innerHeight();
-        let boxHeight = $('.box').height() / 4;
+        let windowHeight = $(window).innerHeight(),
+            boxHeight = $('.box').height() / 4,
 
-        /*
-        // 메뉴
-        offset
-        scrollTop
-        slice
-        animate
-        innerHeight
-        Height
-        */
+            box01_top = $('.box01').offset().top,
+            box02_top = $('.box02').offset().top,
+            box03_top = $('.box03').offset().top,
+            box04_top = $('.box04').offset().top;
+
+        let scrollPos;
+        let delta;
+        let topWidth;
+
+        // let box_array = new Array();
+
+        // for(let i = 0; i < $('.box').length; i++) {
+        //     box_array.push(('#' + $('.box').eq(i).attr('id')));
+        // }
+
+        $(document).ready(function() {
+            $('#01 div').addClass('on');
+            $("a[href='#01']").parent('li').addClass('active');
+        });
+
+        function classChange(id) {
+            $(id).children('div').addClass('on');
+            $("a[href='"+id+"']").parent('li').addClass('active');
+
+            $('.box').not(id).children('div').removeClass('on');
+            $("a[href]:not([href='"+id+"'])").parent('li').removeClass('active');
+       };
+
+       /* 메뉴 - offset, scrollTop, slice, animate, innerHeight, Height */
+       
+       // box의 offset 쓰기
+       // on 영역 별로 붙였다 뗐다
+       function scrollEvent(scrollPos) {
+            if(scrollPos >= box01_top && scrollPos < boxHeight) {
+                classChange('#01');
+            } else if(scrollPos > boxHeight && scrollPos < (box02_top + boxHeight)) {
+                classChange('#02');
+            } else if(scrollPos > (box02_top + boxHeight) && scrollPos < (box03_top + boxHeight)) {
+                classChange('#03');
+            } else if(scrollPos > (box03_top + boxHeight)) {
+                classChange('#04');
+            }
+       };
+
        $(window).scroll(function() {
-            let scrollPos = $(window).scrollTop();
+            scrollPos = $(window).scrollTop();
+            scrollEvent(scrollPos);
+       });
 
-            if(scrollPos < boxHeight) {
-                $('#01 div').addClass('on');
-            } else if(scrollPos > boxHeight && scrollPos < (windowHeight + boxHeight)) {
-                $('#02 div').addClass('on');
-            } else if(scrollPos > (windowHeight + boxHeight) && scrollPos < ((windowHeight * 2) + boxHeight)) {
-                $('#03 div').addClass('on');
-            } else if(scrollPos > ((windowHeight * 2) + boxHeight)) {
-                $('#04 div').addClass('on');
+
+       // jquery 마우스 휠 delta
+       // top 버튼 휠 위로 올리면 없애기
+       $(window).on('wheel', function(event) {
+            /* 
+            100 : 마우스 휠 내림 
+            -100 : 마우스 휠 올림 
+            */
+            delta = event.originalEvent.deltaY;
+            topWidth = (Number($('.top').css('right').split('px')[0]) + $('.top').width());
+
+            if(delta < 0) {
+                $('.top').css({'transform':'translateX('+ topWidth +'px)'});
+            } else {
+                $('.top').css('transform', '');
             }
        });
 
 
         // href 비활성화
-        $('a').bind('click', false);
+        $('a').on('click', false);
 
         $('a').click(function() {
             let boxId = $(this).attr("href");
@@ -116,7 +162,7 @@
         });
 
 
-        // 탑 버튼 - animate, offset, scrolltop
+        /* 탑 버튼 - animate, offset, scrolltop */
         $('.top').click(function() {
             $('html, body').stop().animate({
                 scrollTop: 0
